@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { siteConfig, getCanonicalUrl, getOgImageUrl } from "@/lib/site";
+import { siteConfig, getCanonicalUrl, getOgImageUrl, getPageKeywords } from "@/lib/site";
 
 const contactTitle = "Contact – Baba Khan";
 const contactDescription =
@@ -8,6 +8,7 @@ const contactDescription =
 export const metadata: Metadata = {
   title: contactTitle,
   description: contactDescription,
+  keywords: getPageKeywords(["contact", "WhatsApp", "support client", "aide", "Marrakech"]),
   alternates: { canonical: getCanonicalUrl("/contact") },
   openGraph: {
     title: contactTitle,

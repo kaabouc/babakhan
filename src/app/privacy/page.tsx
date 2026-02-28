@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
-import { siteConfig, getCanonicalUrl, getOgImageUrl } from "@/lib/site";
+import { siteConfig, getCanonicalUrl, getOgImageUrl, getPageKeywords } from "@/lib/site";
 
 const toc = [
   { id: "intro", label: "Introduction" },
@@ -18,6 +18,7 @@ export const metadata = {
   title: "Politique de Confidentialité – Baba Khan",
   description:
     "Politique de confidentialité et protection des données personnelles de Baba Khan. RGPD, cookies, droits des utilisateurs.",
+  keywords: getPageKeywords(["confidentialité", "RGPD", "mentions légales", "protection des données", "cookies"]),
   alternates: { canonical: getCanonicalUrl("/privacy") },
   openGraph: {
     title: "Politique de Confidentialité | Baba Khan",
@@ -51,6 +52,7 @@ export default function PrivacyPage() {
               <li key={id} className="mb-2.5">
                 <Link
                   href={`#${id}`}
+                  title={`${label} – Politique de confidentialité Baba Khan`}
                   className="block border-l-2 border-transparent py-1 pl-3 text-[var(--text-light)] text-[0.85rem] no-underline transition-colors hover:border-[var(--orange)] hover:text-[var(--orange)]"
                 >
                   {label}
@@ -185,8 +187,12 @@ export default function PrivacyPage() {
             </ul>
             <p className="text-[var(--text-light)] text-[0.95rem] leading-relaxed">
               Pour exercer ces droits, contactez-nous à{" "}
-              <a href="mailto:contact@babakhan.ma" className="text-[var(--orange)] no-underline">
-                contact@babakhan.ma
+              <a
+                href={`mailto:${siteConfig.email}`}
+                title="Email Baba Khan – Exercer vos droits"
+                className="text-[var(--orange)] no-underline"
+              >
+                {siteConfig.email}
               </a>
               .
             </p>
@@ -247,14 +253,16 @@ export default function PrivacyPage() {
               Notre équipe est disponible pour toute demande relative à votre vie privée.
             </p>
             <a
-              href="mailto:contact@babakhan.ma"
+              href={`mailto:${siteConfig.email}`}
+              title="Email Baba Khan – Données personnelles"
               className="font-semibold text-[var(--orange-light)] no-underline"
             >
-              contact@babakhan.ma
+              {siteConfig.email}
             </a>
             {" · "}
             <Link
               href="/contact"
+              title="Formulaire de contact – Baba Khan"
               className="font-semibold text-[var(--orange-light)] no-underline"
             >
               Formulaire de contact

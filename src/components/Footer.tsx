@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { siteConfig } from "@/lib/site";
+
+const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}`;
 
 export default function Footer() {
   return (
@@ -19,10 +22,11 @@ export default function Footer() {
           <h5 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
             Navigation
           </h5>
-          <ul className="list-none">
+          <ul className="list-none" role="list">
             <li className="mb-2.5">
               <Link
                 href="/"
+                title="Accueil – Baba Khan épicerie Marrakech"
                 className="text-sm text-[rgba(255,255,255,0.7)] no-underline transition-colors hover:text-[var(--orange-light)]"
               >
                 Accueil
@@ -31,6 +35,7 @@ export default function Footer() {
             <li className="mb-2.5">
               <Link
                 href="/services"
+                title="Services Baba Khan – Catalogue, livraison, support"
                 className="text-sm text-[rgba(255,255,255,0.7)] no-underline transition-colors hover:text-[var(--orange-light)]"
               >
                 Services
@@ -39,6 +44,7 @@ export default function Footer() {
             <li className="mb-2.5">
               <Link
                 href="/contact"
+                title="Contact Baba Khan – WhatsApp, email"
                 className="text-sm text-[rgba(255,255,255,0.7)] no-underline transition-colors hover:text-[var(--orange-light)]"
               >
                 Contact
@@ -81,10 +87,11 @@ export default function Footer() {
           <h5 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
             Contact
           </h5>
-          <ul className="list-none">
+          <ul className="list-none" role="list">
             <li className="mb-2.5">
               <Link
                 href="/contact"
+                title="Nous contacter – Baba Khan"
                 className="text-sm text-[rgba(255,255,255,0.7)] no-underline transition-colors hover:text-[var(--orange-light)]"
               >
                 Nous contacter
@@ -92,9 +99,10 @@ export default function Footer() {
             </li>
             <li className="mb-2.5">
               <a
-                href="https://wa.me/"
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                title="Contacter Baba Khan sur WhatsApp (ouverture dans un nouvel onglet)"
                 className="text-sm text-[rgba(255,255,255,0.7)] no-underline transition-colors hover:text-[var(--orange-light)]"
               >
                 WhatsApp Support
@@ -102,10 +110,20 @@ export default function Footer() {
             </li>
             <li className="mb-2.5">
               <a
-                href="mailto:contact@babakhan.ma"
+                href={`mailto:${siteConfig.email}`}
+                title="Envoyer un email à Baba Khan"
                 className="text-sm text-[rgba(255,255,255,0.7)] no-underline transition-colors hover:text-[var(--orange-light)]"
               >
-                contact@babakhan.ma
+                {siteConfig.email}
+              </a>
+            </li>
+            <li className="mb-2.5">
+              <a
+                href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
+                title="Appeler Baba Khan"
+                className="text-sm text-[rgba(255,255,255,0.7)] no-underline transition-colors hover:text-[var(--orange-light)]"
+              >
+                {siteConfig.phone}
               </a>
             </li>
           </ul>
@@ -116,12 +134,14 @@ export default function Footer() {
         <div className="flex gap-6">
           <Link
             href="/privacy"
+            title="Politique de confidentialité – Baba Khan"
             className="text-[rgba(255,255,255,0.6)] no-underline hover:text-[var(--orange-light)]"
           >
             Confidentialité
           </Link>
           <Link
             href="/contact"
+            title="Contact – Baba Khan"
             className="text-[rgba(255,255,255,0.6)] no-underline hover:text-[var(--orange-light)]"
           >
             Contact

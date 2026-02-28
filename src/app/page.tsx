@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { siteConfig, getCanonicalUrl } from "@/lib/site";
+import { siteConfig, getCanonicalUrl, getOgImageUrl, getPageKeywords } from "@/lib/site";
 
 export const metadata = {
   title: siteConfig.nameLong,
   description: siteConfig.defaultDescription,
+  keywords: getPageKeywords(["accueil", "livraison 24h", "épicerie Marrakech", "commander en ligne"]),
   alternates: { canonical: getCanonicalUrl("/") },
   openGraph: {
     title: siteConfig.nameLong,
@@ -12,6 +13,12 @@ export const metadata = {
     siteName: siteConfig.name,
     locale: "fr_FR",
     type: "website",
+    images: [{ url: getOgImageUrl(), width: 1200, height: 630, alt: "Baba Khan – Épicerie livrée à Marrakech" }],
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: siteConfig.nameLong,
+    description: siteConfig.defaultDescription,
   },
 };
 
@@ -43,12 +50,14 @@ export default function Home() {
             <div className="flex flex-wrap justify-center gap-4 md:justify-start">
               <Link
                 href="#telecharger"
+                title="Télécharger l'application Baba Khan"
                 className="inline-flex items-center gap-2 rounded-full bg-[var(--orange)] px-8 py-3.5 text-sm font-semibold text-white no-underline transition-colors hover:bg-[var(--orange-dark)] hover:-translate-y-0.5"
               >
                 Télécharger l&apos;app
               </Link>
               <Link
                 href="/services"
+                title="Nos services – Catalogue, livraison, support Baba Khan"
                 className="inline-flex items-center gap-2 rounded-full border-2 border-[var(--orange)] px-8 py-3.5 text-sm font-semibold text-[var(--orange)] no-underline transition-colors hover:bg-[var(--orange)] hover:text-white"
               >
                 Nos services →

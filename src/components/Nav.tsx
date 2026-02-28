@@ -18,16 +18,21 @@ export default function Nav() {
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-[100] flex h-[70px] items-center justify-between border-b border-[rgba(212,98,26,0.15)] bg-[rgba(253,246,238,0.95)] px-8 backdrop-blur-[12px]">
-        <Link href="/" className="flex items-center gap-2.5 no-underline">
+        <Link
+          href="/"
+          className="flex items-center gap-2.5 no-underline"
+          title="Baba Khan – Accueil | Épicerie livrée à Marrakech"
+        >
           <span className="font-serif text-lg font-bold text-[var(--orange)]">
             Baba Khan
           </span>
         </Link>
-        <ul className="hidden list-none items-center gap-8 md:flex">
+        <ul className="hidden list-none items-center gap-8 md:flex" role="list">
           {links.map(({ href, label }) => (
             <li key={href}>
               <Link
                 href={href}
+                title={label === "Accueil" ? "Accueil – Baba Khan" : `${label} – Baba Khan`}
                 className={`text-sm font-medium text-[var(--brown)] no-underline transition-colors hover:text-[var(--orange)] ${
                   pathname === href || (href !== "/" && pathname.startsWith(href))
                     ? "text-[var(--orange)]"
@@ -77,6 +82,7 @@ export default function Nav() {
         <Link
           href="#telecharger"
           onClick={() => setMobileOpen(false)}
+          title="Télécharger l'application Baba Khan"
           className="font-semibold text-[var(--orange)] no-underline"
         >
           Télécharger l&apos;app

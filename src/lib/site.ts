@@ -11,23 +11,30 @@ export const siteConfig = {
   /** Short description for meta description / OG (≤160 chars) */
   defaultDescription:
     "Fruits secs, huiles naturelles, épices et produits du terroir livrés à Marrakech. Commandez en 24h.",
-  /** Keywords for meta keywords (legacy but still used by some engines) */
+  /** Base keywords (include brand "babakhan" for search). Used by all pages + page-specific. */
   keywords: [
+    "babakhan",
+    "Baba Khan",
     "épicerie en ligne",
     "livraison Marrakech",
     "fruits secs Maroc",
     "huile d'argan",
     "épices Maroc",
-    "Baba Khan",
     "épicerie livrée",
     "produits du terroir",
+    "application épicerie",
+    "Marrakech",
   ],
   /** Twitter handle (optional) */
   twitterHandle: "@babakhan_ma",
   /** Default OG image path (absolute URL built from url). Add public/og.png 1200×630. */
   defaultOgImagePath: "/og.png",
-  /** Contact / business (for JSON-LD) */
-  email: "contact@babakhan.ma",
+  /** Contact / business (for JSON-LD and display) */
+  email: "babakhanmarket@gmail.com",
+  /** Phone for display and WhatsApp (E.164 without + for wa.me) */
+  phone: "+212600468073",
+  /** WhatsApp link (same as phone, no +) */
+  whatsappNumber: "212600468073",
   /** City/region for LocalBusiness schema */
   areaServed: "Marrakech, Maroc",
   /** Opening hours (for schema) – adjust to real hours */
@@ -39,3 +46,10 @@ export const getCanonicalUrl = (path: string) =>
 
 export const getOgImageUrl = (path?: string) =>
   path ? getCanonicalUrl(path) : getCanonicalUrl(siteConfig.defaultOgImagePath);
+
+/** Page-specific keywords: always include babakhan + base + extra. Use for metadata.keywords. */
+export function getPageKeywords(extra: string[]): string[] {
+  return ["babakhan", ...siteConfig.keywords, ...extra].filter(
+    (v, i, a) => a.indexOf(v) === i
+  );
+}

@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import PageHero from "@/components/PageHero";
+import { siteConfig } from "@/lib/site";
+
+const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}`;
 
 const faqs = [
   {
@@ -26,9 +29,27 @@ const faqs = [
   },
 ];
 
+const SUJET_OPTIONS = [
+  "",
+  "Question sur ma commande",
+  "Problème de livraison",
+  "Produit manquant ou endommagé",
+  "Remboursement",
+  "Autre",
+] as const;
+
 export default function ContactPage() {
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [form, setForm] = useState({
+    prenom: "",
+    nom: "",
+    email: "",
+    sujet: "",
+    message: "",
+  });
 
   return (
     <>
@@ -60,14 +81,21 @@ export default function ContactPage() {
                 title: "WhatsApp Support",
                 text: "Disponible 7j/7 pour vos questions et commandes.",
                 linkLabel: "Ouvrir WhatsApp →",
-                linkHref: "https://wa.me/",
+                linkHref: whatsappUrl,
               },
               {
                 icon: "📧",
                 title: "Email",
                 text: "Pour les demandes formelles ou réclamations.",
-                linkLabel: "contact@babakhan.ma",
-                linkHref: "mailto:contact@babakhan.ma",
+                linkLabel: siteConfig.email,
+                linkHref: `mailto:${siteConfig.email}`,
+              },
+              {
+                icon: "📞",
+                title: "Téléphone",
+                text: "Appelez-nous pour toute question.",
+                linkLabel: siteConfig.phone,
+                linkHref: `tel:${siteConfig.phone.replace(/\s/g, "")}`,
               },
               {
                 icon: "📍",
@@ -100,6 +128,13 @@ export default function ContactPage() {
                           href={card.linkHref}
                           target={card.linkHref.startsWith("http") ? "_blank" : undefined}
                           rel={card.linkHref.startsWith("http") ? "noopener noreferrer" : undefined}
+                          title={
+                            card.linkHref.startsWith("http")
+                              ? "Contacter Baba Khan sur WhatsApp (nouvel onglet)"
+                              : card.linkHref.startsWith("mailto:")
+                              ? "Envoyer un email à Baba Khan"
+                              : "Appeler Baba Khan"
+                          }
                           className="font-medium text-[var(--orange)] no-underline"
                         >
                           {card.linkLabel}
@@ -118,10 +153,33 @@ export default function ContactPage() {
             </h3>
             <form
               className="space-y-5"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                setSuccess(true);
-                setTimeout(() => setSuccess(false), 5000);
+                setError(null);
+                if (!form.prenom.trim() || !form.nom.trim() || !form.email.trim() || !form.sujet.trim() || !form.message.trim()) {
+                  setError("Veuillez remplir tous les champs.");
+                  return;
+                }
+                setSending(true);
+                try {
+                  const res = await fetch("/api/contact", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(form),
+                  });
+                  const data = await res.json().catch(() => ({}));
+                  if (!res.ok) {
+                    setError(data.error ?? "Erreur lors de l'envoi. Réessayez.");
+                    return;
+                  }
+                  setSuccess(true);
+                  setForm({ prenom: "", nom: "", email: "", sujet: "", message: "" });
+                  setTimeout(() => setSuccess(false), 5000);
+                } catch {
+                  setError("Impossible d'envoyer le message. Vérifiez votre connexion.");
+                } finally {
+                  setSending(false);
+                }
               }}
             >
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -136,7 +194,10 @@ export default function ContactPage() {
                     id="prenom"
                     type="text"
                     placeholder="Votre prénom"
+                    value={form.prenom}
+                    onChange={(e) => setForm((f) => ({ ...f, prenom: e.target.value }))}
                     className="w-full rounded-lg border border-[rgba(212,98,26,0.2)] bg-[var(--cream)] px-4 py-3 text-[var(--text)] outline-none transition-[border-color,box-shadow] focus:border-[var(--orange)] focus:ring-2 focus:ring-[rgba(212,98,26,0.1)]"
+                    disabled={sending}
                   />
                 </div>
                 <div>
@@ -150,7 +211,10 @@ export default function ContactPage() {
                     id="nom"
                     type="text"
                     placeholder="Votre nom"
+                    value={form.nom}
+                    onChange={(e) => setForm((f) => ({ ...f, nom: e.target.value }))}
                     className="w-full rounded-lg border border-[rgba(212,98,26,0.2)] bg-[var(--cream)] px-4 py-3 text-[var(--text)] outline-none transition-[border-color,box-shadow] focus:border-[var(--orange)] focus:ring-2 focus:ring-[rgba(212,98,26,0.1)]"
+                    disabled={sending}
                   />
                 </div>
               </div>
@@ -165,7 +229,10 @@ export default function ContactPage() {
                   id="email"
                   type="email"
                   placeholder="votre@email.com"
+                  value={form.email}
+                  onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                   className="w-full rounded-lg border border-[rgba(212,98,26,0.2)] bg-[var(--cream)] px-4 py-3 text-[var(--text)] outline-none transition-[border-color,box-shadow] focus:border-[var(--orange)] focus:ring-2 focus:ring-[rgba(212,98,26,0.1)]"
+                  disabled={sending}
                 />
               </div>
               <div>
@@ -177,14 +244,16 @@ export default function ContactPage() {
                 </label>
                 <select
                   id="sujet"
+                  value={form.sujet}
+                  onChange={(e) => setForm((f) => ({ ...f, sujet: e.target.value }))}
                   className="w-full rounded-lg border border-[rgba(212,98,26,0.2)] bg-[var(--cream)] px-4 py-3 text-[var(--text)] outline-none transition-[border-color,box-shadow] focus:border-[var(--orange)] focus:ring-2 focus:ring-[rgba(212,98,26,0.1)]"
+                  disabled={sending}
                 >
-                  <option value="">Choisir un sujet…</option>
-                  <option>Question sur ma commande</option>
-                  <option>Problème de livraison</option>
-                  <option>Produit manquant ou endommagé</option>
-                  <option>Remboursement</option>
-                  <option>Autre</option>
+                  {SUJET_OPTIONS.map((opt) => (
+                    <option key={opt || "empty"} value={opt}>
+                      {opt || "Choisir un sujet…"}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -198,14 +267,23 @@ export default function ContactPage() {
                   id="message"
                   placeholder="Décrivez votre demande…"
                   rows={5}
+                  value={form.message}
+                  onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
                   className="min-h-[130px] w-full resize-y rounded-lg border border-[rgba(212,98,26,0.2)] bg-[var(--cream)] px-4 py-3 text-[var(--text)] outline-none transition-[border-color,box-shadow] focus:border-[var(--orange)] focus:ring-2 focus:ring-[rgba(212,98,26,0.1)]"
+                  disabled={sending}
                 />
               </div>
+              {error && (
+                <p className="rounded-lg border border-red-200 bg-red-50 p-4 text-center text-sm font-medium text-red-700">
+                  {error}
+                </p>
+              )}
               <button
                 type="submit"
-                className="w-full rounded-full bg-[var(--orange)] py-4 text-base font-semibold text-white transition-all hover:bg-[var(--orange-dark)] hover:-translate-y-0.5"
+                disabled={sending}
+                className="w-full rounded-full bg-[var(--orange)] py-4 text-base font-semibold text-white transition-all hover:bg-[var(--orange-dark)] hover:-translate-y-0.5 disabled:opacity-70 disabled:pointer-events-none"
               >
-                Envoyer le message ✉️
+                {sending ? "Envoi en cours…" : "Envoyer le message ✉️"}
               </button>
               {success && (
                 <p className="rounded-lg border border-green-300 bg-green-50 p-4 text-center font-medium text-green-700">

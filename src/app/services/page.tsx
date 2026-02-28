@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
-import { siteConfig, getCanonicalUrl, getOgImageUrl } from "@/lib/site";
+import { siteConfig, getCanonicalUrl, getOgImageUrl, getPageKeywords } from "@/lib/site";
 
 const services = [
   {
@@ -64,6 +64,7 @@ export const metadata = {
   title: "Services – Baba Khan",
   description:
     "Catalogue, commande, livraison et support : tout ce que Baba Khan vous offre.",
+  keywords: getPageKeywords(["services", "catalogue", "livraison 24h", "support WhatsApp", "commande épicerie"]),
   alternates: { canonical: getCanonicalUrl("/services") },
   openGraph: {
     title: "Nos services | Baba Khan – Épicerie livrée à Marrakech",
@@ -146,7 +147,8 @@ export default function ServicesPage() {
           Téléchargez Baba Khan et profitez de votre première livraison.
         </p>
         <Link
-          href="#telecharger"
+          href="/#telecharger"
+          title="Télécharger l'application Baba Khan"
           className="inline-block rounded-full bg-white px-10 py-3.5 text-[var(--orange)] font-bold no-underline transition-all hover:-translate-y-1 hover:shadow-lg"
         >
           Télécharger l&apos;application
