@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
+import { siteConfig, getCanonicalUrl, getOgImageUrl } from "@/lib/site";
 
 const toc = [
   { id: "intro", label: "Introduction" },
@@ -15,7 +16,20 @@ const toc = [
 
 export const metadata = {
   title: "Politique de Confidentialité – Baba Khan",
-  description: "Politique de confidentialité et protection des données personnelles.",
+  description:
+    "Politique de confidentialité et protection des données personnelles de Baba Khan. RGPD, cookies, droits des utilisateurs.",
+  alternates: { canonical: getCanonicalUrl("/privacy") },
+  openGraph: {
+    title: "Politique de Confidentialité | Baba Khan",
+    description:
+      "Politique de confidentialité et protection des données personnelles.",
+    url: getCanonicalUrl("/privacy"),
+    siteName: siteConfig.name,
+    images: [{ url: getOgImageUrl(), width: 1200, height: 630, alt: "Baba Khan Confidentialité" }],
+    locale: "fr_FR",
+    type: "website",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function PrivacyPage() {
@@ -28,7 +42,7 @@ export default function PrivacyPage() {
       />
 
       <div className="mx-auto grid max-w-[1000px] grid-cols-1 gap-16 px-8 py-16 lg:grid-cols-[220px_1fr] lg:items-start">
-        <aside className="sticky top-[90px] rounded-2xl border border-[rgba(212,98,26,0.1)] bg-white p-6 lg:block">
+        <aside className="sticky top-[90px] rounded-2xl border border-[rgba(212,98,26,0.1)] bg-white p-6 lg:block" aria-label="Sommaire">
           <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-[var(--orange)]">
             Sommaire
           </h4>
@@ -46,7 +60,7 @@ export default function PrivacyPage() {
           </ul>
         </aside>
 
-        <main className="min-w-0">
+        <div className="min-w-0">
           <section
             id="intro"
             className="mb-12 scroll-mt-[90px]"
@@ -246,7 +260,7 @@ export default function PrivacyPage() {
               Formulaire de contact
             </Link>
           </div>
-        </main>
+        </div>
       </div>
     </>
   );

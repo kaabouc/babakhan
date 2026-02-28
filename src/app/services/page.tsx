@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
+import { siteConfig, getCanonicalUrl, getOgImageUrl } from "@/lib/site";
 
 const services = [
   {
@@ -63,6 +64,23 @@ export const metadata = {
   title: "Services – Baba Khan",
   description:
     "Catalogue, commande, livraison et support : tout ce que Baba Khan vous offre.",
+  alternates: { canonical: getCanonicalUrl("/services") },
+  openGraph: {
+    title: "Nos services | Baba Khan – Épicerie livrée à Marrakech",
+    description:
+      "Catalogue, commande, livraison et support : tout ce que Baba Khan vous offre.",
+    url: getCanonicalUrl("/services"),
+    siteName: siteConfig.name,
+    images: [{ url: getOgImageUrl(), width: 1200, height: 630, alt: "Baba Khan Services" }],
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nos services | Baba Khan",
+    description:
+      "Catalogue, commande, livraison et support : tout ce que Baba Khan vous offre.",
+  },
 };
 
 export default function ServicesPage() {

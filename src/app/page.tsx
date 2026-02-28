@@ -1,10 +1,28 @@
 import Link from "next/link";
+import { siteConfig, getCanonicalUrl } from "@/lib/site";
+
+export const metadata = {
+  title: siteConfig.nameLong,
+  description: siteConfig.defaultDescription,
+  alternates: { canonical: getCanonicalUrl("/") },
+  openGraph: {
+    title: siteConfig.nameLong,
+    description: siteConfig.defaultDescription,
+    url: getCanonicalUrl("/"),
+    siteName: siteConfig.name,
+    locale: "fr_FR",
+    type: "website",
+  },
+};
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex min-h-screen items-center overflow-hidden px-8 pb-16 pt-24">
+      <section
+        className="relative flex min-h-screen items-center overflow-hidden px-8 pb-16 pt-24"
+        aria-labelledby="hero-heading"
+      >
         <div
           className="absolute -right-24 -top-24 h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,rgba(212,98,26,0.12)_0%,transparent_70%)] pointer-events-none"
           aria-hidden
@@ -14,7 +32,7 @@ export default function Home() {
             <span className="mb-6 inline-block rounded-full bg-[rgba(212,98,26,0.1)] px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--orange)]">
               Épicerie en ligne · Marrakech
             </span>
-            <h1 className="font-serif text-[clamp(2.5rem,5vw,4rem)] font-black leading-tight text-[var(--brown)] mb-6">
+            <h1 id="hero-heading" className="font-serif text-[clamp(2.5rem,5vw,4rem)] font-black leading-tight text-[var(--brown)] mb-6">
               Votre épicerie <span className="text-[var(--orange)]">livrée</span>{" "}
               chez vous.
             </h1>
@@ -50,7 +68,7 @@ export default function Home() {
       </section>
 
       {/* Stats */}
-      <section className="bg-[var(--orange)] px-8 py-12">
+      <section className="bg-[var(--orange)] px-8 py-12" aria-label="Chiffres clés">
         <div className="mx-auto grid max-w-[900px] grid-cols-1 gap-8 text-center md:grid-cols-3">
           <div>
             <div className="font-serif text-4xl font-black text-white">
@@ -78,11 +96,11 @@ export default function Home() {
       </section>
 
       {/* Services */}
-      <section id="services" className="bg-[var(--cream)] px-8 py-16">
+      <section id="services" className="bg-[var(--cream)] px-8 py-16" aria-labelledby="services-heading">
         <p className="text-center text-xs font-semibold uppercase tracking-widest text-[var(--orange)] mb-2">
           Ce que nous offrons
         </p>
-        <h2 className="font-serif text-center text-[clamp(2rem,4vw,3rem)] font-black text-[var(--brown)] mb-4">
+        <h2 id="services-heading" className="font-serif text-center text-[clamp(2rem,4vw,3rem)] font-black text-[var(--brown)] mb-4">
           Nos Services
         </h2>
         <p className="mx-auto mb-14 max-w-[500px] text-center text-[var(--text-light)] text-[1.05rem] leading-relaxed">
@@ -141,11 +159,11 @@ export default function Home() {
       </section>
 
       {/* How it works */}
-      <section className="bg-[var(--gray)] px-8 py-16">
+      <section className="bg-[var(--gray)] px-8 py-16" aria-labelledby="how-heading">
         <p className="text-center text-xs font-semibold uppercase tracking-widest text-[var(--orange)] mb-2">
           Comment ça marche
         </p>
-        <h2 className="font-serif text-center text-[clamp(2rem,4vw,3rem)] font-black text-[var(--brown)] mb-12">
+        <h2 id="how-heading" className="font-serif text-center text-[clamp(2rem,4vw,3rem)] font-black text-[var(--brown)] mb-12">
           En 4 étapes simples
         </h2>
         <div className="mx-auto mt-12 grid max-w-[900px] grid-cols-1 gap-6 text-center sm:grid-cols-2 lg:grid-cols-4">
