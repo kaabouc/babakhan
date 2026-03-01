@@ -65,7 +65,11 @@ export default function Home() {
             </div>
           </div>
           <div className="order-1 flex justify-center md:order-2">
-            <div className="flex h-[280px] w-[280px] items-center justify-center rounded-full bg-gradient-to-br from-[var(--orange)] to-[var(--orange-dark)] md:h-[380px] md:w-[380px]">
+            <div
+              className="flex h-[280px] w-[280px] items-center justify-center rounded-full bg-gradient-to-br from-[var(--orange)] to-[var(--orange-dark)] md:h-[380px] md:w-[380px]"
+              role="img"
+              aria-label="Baba Khan, épicerie livrée à Marrakech"
+            >
               <span className="font-serif text-center text-3xl font-black text-white md:text-4xl">
                 Baba
                 <br />

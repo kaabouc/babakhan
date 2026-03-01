@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -23,9 +24,14 @@ export default function Nav() {
           className="flex items-center gap-2.5 no-underline"
           title="Baba Khan – Accueil | Épicerie livrée à Marrakech"
         >
-          <span className="font-serif text-lg font-bold text-[var(--orange)]">
-            Baba Khan
-          </span>
+          <Image
+            src="/logo.jpeg"
+            alt="Baba Khan – Épicerie livrée à Marrakech"
+            width={120}
+            height={40}
+            className="h-10 w-auto object-contain object-left"
+            priority
+          />
         </Link>
         <ul className="hidden list-none items-center gap-8 md:flex" role="list">
           {links.map(({ href, label }) => (
