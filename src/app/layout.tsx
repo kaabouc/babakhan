@@ -77,6 +77,11 @@ export const metadata: Metadata = {
     // yandex: "your-yandex-verification-code",
   },
   category: "food",
+  icons: {
+    icon: "/logo.jpeg",
+    shortcut: "/logo.jpeg",
+    apple: "/logo.jpeg",
+  },
 };
 
 const jsonLd = {
